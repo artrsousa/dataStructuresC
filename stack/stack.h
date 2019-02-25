@@ -34,6 +34,10 @@ static inline void __new_stack(__stack *stack)
         stack->size = 0;
 }            
 
+statick inline void push(__stack *stack, void *value)
+{
+}
+
 
 
 #ifndef /* STACK_H */
