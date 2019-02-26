@@ -18,10 +18,19 @@ main(void)
                 __pop(stack);
                 __pop(stack);
                 __pop(stack);
+                __pop(stack);
+                __pop(stack);
+                __pop(stack);
                 
-                printf("top: %d\n", __top(stack));
+                __push(stack, (void*) 340);
+                __push(stack, (void*) 530);
+                __push(stack, (void*) 120);
+               
+                        
+                if (__top(stack))
+                        printf("top: %d\n", (int*) __top(stack));
+                
                 __runs(stack);
-                
                 __clean_all(stack);
         }
 }

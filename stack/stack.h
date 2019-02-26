@@ -19,9 +19,6 @@ struct __stack_ {
                 __node* top;
                 int size;
             };
-            
-#define is_empty(stack) \
-        stack->top == NULL ? true:false
         
 #define __clean_all(stack) \
                 while (stack->base != NULL) { \
@@ -48,7 +45,7 @@ static inline void __push(__stack *stack, void *value)
         __node *node = malloc(sizeof(*node));
         __new_node(node, value);
         
-        if (is_empty(stack)) {
+        if (stack->top == NULL) {
                 stack->base = stack->top = node;
         } else {
                 stack->top->next = node;
@@ -60,23 +57,37 @@ static inline void __push(__stack *stack, void *value)
 
 static inline void __pop(__stack *stack)
 {
-        __node *walker = stack->base;
-        __node *prev   = NULL;
-        
-        while (walker != stack->top) {
-                prev = walker;
-                walker = walker->next;
+        if (stack->top != NULL)
+        {
+                if (stack->size == 1) {
+                        __new_stack(stack);
+                } else {
+                        __node *walker = stack->base;
+                        __node *prev   = NULL;
+
+                        while (walker != stack->top) {
+                                prev = walker;
+                                walker = walker->next;
+                        }
+
+                        stack->top = prev;
+                        prev->next = NULL;
+
+                        --stack->size;
+                        free(walker);
+                }
+        } else {
+                printf("cannot remove from a empty stack\n");
+                exit(EXIT_FAILURE);
         }
-        
-        stack->top = prev;
-        prev->next = NULL;
-        
-        free(walker);
 }
 
 static inline void* __top(__stack *stack)
 {
-        return stack->top->value;
+        if (stack->top != NULL)
+                return stack->top->value;
+        else
+                return NULL;
 }
 
 static inline void __runs(__stack *stack)
