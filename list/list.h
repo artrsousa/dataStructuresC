@@ -21,9 +21,6 @@ struct __list_ {
                 int size;
             };
 
-#define is_empty(list) \
-            list->head == NULL ? true:false
-
 static inline void __new_node(void *value, __node *node)
 { 
         node->value = malloc(sizeof(*value));
@@ -37,12 +34,16 @@ static inline void __new_list(__list *list)
         list->size = 0;
 }
 
+#define __clean_all(list) \
+                while(list->head) \
+                        __remove_at_end(list); 
+
 static inline void __insert_at_end(__list *list, void *value)
 {
         __node *node = malloc(sizeof(*node));
         __new_node(value, node);
         
-        if (is_empty(list)) {
+        if (list->head == NULL) {
                 list->head = list->tail = node;
         } else {
                 /* double linked */
@@ -63,7 +64,7 @@ static inline void __insert_at_begin(__list *list, void *value)
         __node *node = malloc(sizeof(*node));
         __new_node(value, node);
         
-        if (is_empty(list)) {
+        if (list->head == NULL) {
                 list->head = list->tail = node;
         } else {
                 list->head->prev = node;
@@ -112,7 +113,7 @@ static inline void __insert_at(__list *list, void *value, int index)
 
 static inline void __remove_at_begin(__list *list)
 {
-        if (is_empty(list) == false) {
+        if (list->head != NULL) {
                  __node *head = list->head;
                  
                 if (list->size == 1) {
@@ -130,7 +131,7 @@ static inline void __remove_at_begin(__list *list)
 
 static inline void __remove_at_end(__list *list)
 {
-        if (is_empty(list) == false) {                        
+        if (list->head != NULL) {                        
                 __node *tail = list->tail;
                 
                 if (list->size == 1) {
@@ -183,7 +184,7 @@ static inline void *__search_for_index(__list *list, int index)
         
         __node *walker = NULL;
         
-        if (is_empty(list) == false) {
+        if (list->head != NULL) {
                 walker = list->head;
 
                 for (unsigned int i = 0; i < index - 1; ++i)
@@ -208,12 +209,6 @@ static inline __node *__search_for_value(__list *list, void* value)
         }
         
         return NULL;
-}
-
-static inline void __clear_all(__list *list)
-{
-        while (list->head)
-                __remove_at_end(list);
 }
 
 static inline void __print_all(__list *list)

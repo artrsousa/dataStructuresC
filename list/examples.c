@@ -31,7 +31,7 @@ main(void)
                 __remove_at(list, 3);
                 
                 __print_all(list);
-                __clear_all(list);
+                __clean_all(list);
         }
 
         {
