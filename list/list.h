@@ -43,9 +43,12 @@ static inline void __insert_at_end(__list *list, void *value)
         __node *node = malloc(sizeof(*node));
         __new_node(value, node);
         
-        if (list->head == NULL) {
+        if (list->head == NULL) 
+        {
                 list->head = list->tail = node;
-        } else {
+        } 
+        else 
+        {
                 /* double linked */
                 list->tail->next = node;
                 node->prev = list->tail;
@@ -64,9 +67,12 @@ static inline void __insert_at_begin(__list *list, void *value)
         __node *node = malloc(sizeof(*node));
         __new_node(value, node);
         
-        if (list->head == NULL) {
+        if (list->head == NULL) 
+        {
                 list->head = list->tail = node;
-        } else {
+        } 
+        else 
+        {
                 list->head->prev = node;
                 node->next = list->head;
                 list->head = node;
@@ -80,7 +86,8 @@ static inline void __insert_at_begin(__list *list, void *value)
 
 static inline void __insert_at(__list *list, void *value, int index)
 {
-        if (index > list->size + 1 || index < 1) {
+        if (index > list->size + 1 || index < 1) 
+        {
                 fprintf(stderr, "insert_at_mid: index[%d] in size[%d] cant be reached\n", 
                                                                                 index, list->size);
                 exit(EXIT_FAILURE);
@@ -89,15 +96,20 @@ static inline void __insert_at(__list *list, void *value, int index)
         __node *node = malloc(sizeof(*node));
         __new_node(value, node);
         
-        if (index == 1) {
+        if (index == 1) 
+        {
                 __insert_at_begin(list, value);
-        } else if (index == list->size + 1) {
+        } 
+        else if (index == list->size + 1) 
+        {
                 __insert_at_end(list, value);
-        } else {
+        } else 
+        {
                 __node *walker = list->head;
                 __node *prev   = NULL;
                 
-                for (unsigned int i = 0; i < index - 1; ++i) {
+                for (unsigned int i = 0; i < index - 1; ++i) 
+                {
                         prev = walker;
                         walker = walker->next;
                 }
@@ -113,12 +125,16 @@ static inline void __insert_at(__list *list, void *value, int index)
 
 static inline void __remove_at_begin(__list *list)
 {
-        if (list->head != NULL) {
+        if (list->head != NULL) 
+        {
                  __node *head = list->head;
                  
-                if (list->size == 1) {
+                if (list->size == 1) 
+                {
                         list->head = list->tail = NULL;
-                } else {
+                } 
+                else 
+                {
                         list->tail->next = list->head->next;
                         list->head = list->head->next;
                         list->head->prev = list->tail;
@@ -131,12 +147,16 @@ static inline void __remove_at_begin(__list *list)
 
 static inline void __remove_at_end(__list *list)
 {
-        if (list->head != NULL) {                        
+        if (list->head != NULL) 
+        {                        
                 __node *tail = list->tail;
                 
-                if (list->size == 1) {
+                if (list->size == 1) 
+                {
                         list->head = list->tail = NULL;
-                } else {
+                } 
+                else 
+                {
                         list->head->prev = list->tail;
                         list->tail = list->tail->prev;
                         list->tail->next = list->head;
@@ -149,7 +169,8 @@ static inline void __remove_at_end(__list *list)
 
 static inline void __remove_at(__list *list, int index)
 {
-        if (index < 1 || index > list->size) {
+        if (index < 1 || index > list->size) 
+        {
                 fprintf(stderr, "index cant be removed");
                 exit(EXIT_FAILURE);
         }
@@ -157,12 +178,17 @@ static inline void __remove_at(__list *list, int index)
         __node *walker      = list->head;
         __node *prev_walker = NULL;
         
-        if (index == 1) {
+        if (index == 1) 
+        {
                __remove_at_begin(list); 
-        } else if (index == list->size) {
+        } 
+        else if (index == list->size) 
+        {
                 __remove_at_end(list);
-        } else {
-                for (unsigned int i = 0; i < index - 1; ++i) {
+        } else 
+        {
+                for (unsigned int i = 0; i < index - 1; ++i) 
+                {
                         prev_walker = walker;
                         walker = walker->next;
                 }
@@ -177,19 +203,23 @@ static inline void __remove_at(__list *list, int index)
 
 static inline void *__search_for_index(__list *list, int index)
 {
-        if (index < 1 || index >= list->size) {
+        if (index < 1 || index >= list->size) 
+        {
                 fprintf(stderr, "search_for_index: index cant be reached\n");
                 exit(EXIT_FAILURE);
         }
         
         __node *walker = NULL;
         
-        if (list->head != NULL) {
+        if (list->head != NULL)
+        {
                 walker = list->head;
 
                 for (unsigned int i = 0; i < index - 1; ++i)
                         walker = walker->next;
-        } else {
+        } 
+        else 
+        {
                 fprintf(stderr, "list is empty!!");
                 exit(EXIT_FAILURE);
         }
@@ -201,7 +231,8 @@ static inline __node *__search_for_value(__list *list, void* value)
 {
         __node *walker = list->head;
         
-        for (unsigned int i = 0; i < list->size; ++i) {
+        for (unsigned int i = 0; i < list->size; ++i) 
+        {
                 if (walker->value != value)
                         walker = walker->next;
                 else
@@ -216,9 +247,9 @@ static inline void __print_all(__list *list)
         __node *head = list->head;
         
         /* adjust the parameter % to your type */
-        for (unsigned int i = 0; i < list->size ; ++i, head = head->next) {
+        for (unsigned int i = 0; i < list->size ; ++i, head = head->next) 
                 printf("index[%d]: value:%d\n", i, head->value);
-        }
+        
 }
 
 
